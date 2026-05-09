@@ -1,67 +1,61 @@
----
-title: Danbooru 词条匹配器
-emoji: 🎨
-colorFrom: purple
-colorTo: blue
-sdk: docker
-pinned: false
-license: mit
----
-
 # 🎨 Danbooru 词条匹配器
 
-输入中文描述，自动匹配 Danbooru 英文词条！
+智能匹配中文描述到 Danbooru 英文词条的工具。
 
-## 功能
+## 功能特点
 
-- 🔍 **AI 智能匹配** - 输入中文，输出最相关的 Danbooru 英文词条
-- 📊 **最多 5 个结果** - 按匹配度排序显示
-- 📝 **用户投稿** - 提交自己的中文→英文映射
-- 🏆 **投票排序** - 投稿多的词条优先显示
-- 📖 **中文翻译** - 每个词条下方显示中文翻译
+- ✨ **智能关键词拆解** - 自动识别"白发蓝瞳美少女"→`white hair`, `blue eyes`, `1girl`
+- 📚 **完整模糊匹配** - 支持 100+ 种发色/瞳色/发型等关键词变体
+- 📝 **用户投稿系统** - 投票排序，社区共建
+- 🤖 **AI 备用匹配** - 实在找不到时才用 AI
+- 📋 **点击复制** - 点击词条卡片自动复制英文词条
 
-## 使用示例
+## 部署到 Vercel
 
-| 中文输入 | 匹配结果 |
-|---------|---------|
-| 红色眼睛 | red eyes（红眼睛） |
-| 小揪揪 | two side up（两边小辫子） |
-| 猫耳朵 | cat ears（猫耳） |
-| 异色瞳 | heterochromia（异色瞳） |
-| 机械翅膀 | mechanical wings（机械翅膀） |
+### 1. Fork 本仓库
 
-## 部署
+点击右上角 Fork 按钮
 
-### 本地运行
+### 2. 在 Vercel 导入项目
 
-```bash
-pip3 install flask
-python3 app.py --port 5000
+1. 访问 https://vercel.com
+2. 点击 "Add New Project"
+3. 选择 GitHub 仓库
+4. 点击 "Import"
+
+### 3. 配置环境变量
+
+在 Vercel 项目设置中添加：
+
+| Variable | Value |
+|----------|-------|
+| `QWEN_API_KEY` | `sk-xxxxx`（你的千问 API Key） |
+| `QWEN_API_URL` | `https://api.uglycat.cc/v1/chat/completions` |
+| `QWEN_MODEL` | `qwen-3-235b-a22b-instruct-2507` |
+
+### 4. 部署完成！
+
+Vercel 会自动构建并部署，获得固定域名：
+```
+https://your-project.vercel.app
 ```
 
-### Hugging Face Spaces
+## 本地开发
 
-已配置自动部署，推送到 main 分支即可。
+```bash
+# 安装依赖
+pip install -r requirements.txt
 
-## 环境变量
-
-- `DEEPSEEK_API_KEY` - DeepSeek API Key（可选，用于 AI 匹配）
-- `DEEPSEEK_MODEL` - 模型名称（默认：deepseek-chat）
+# 运行
+python app.py --port 8888
+```
 
 ## 技术栈
 
-- **后端**: Flask + SQLite
-- **前端**: HTML + CSS + JavaScript
-- **AI**: DeepSeek API
-
-## 内置词条
-
-包含 150+ 常用 Danbooru 词条，涵盖：
-- 外貌特征（眼睛颜色、发型等）
-- 服装配饰
-- 动作表情
-- 场景环境
-- 角色属性
+- **前端**: HTML/CSS/JavaScript
+- **后端**: Flask + Python
+- **数据库**: SQLite
+- **部署**: Vercel
 
 ## License
 

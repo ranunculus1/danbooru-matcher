@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "env": {
+    "QWEN_API_KEY": "@qwen-api-key",
+    "QWEN_API_URL": "@qwen-api-url",
+    "QWEN_MODEL": "@qwen-model"
+  }
+}

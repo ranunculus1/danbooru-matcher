@@ -14,15 +14,19 @@ import os
 from datetime import datetime
 import json
 import urllib.request
+from keyword_mapping import parse_input
 
 app = Flask(__name__)
-# HF Space 使用临时目录存储数据库（避免只读文件系统问题）
+# 数据库路径：Vercel/HF Space 使用临时目录，本地使用当前目录
 DB_PATH = os.environ.get('DB_PATH', os.path.join(os.path.dirname(__file__), 'danbooru_tags.db'))
+# Vercel 使用 /tmp 目录
+if os.environ.get('VERCEL'):
+    DB_PATH = '/tmp/danbooru_tags.db'
 
-# DeepSeek API 配置
-DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
-DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'
-DEEPSEEK_MODEL = os.environ.get('DEEPSEEK_MODEL', 'deepseek-chat')
+# AI API 配置（第三方 API - uglycat.cc）
+AI_API_KEY = 'sk-B9LzZVnN5h0IGpGIOcONOJagimqPNKDZ8fh1722AzU3PVQo5'
+AI_API_URL = 'https://api.uglycat.cc/v1/chat/completions'
+AI_MODEL = 'qwen-3-235b-a22b-instruct-2507'
 
 # 内置常用 Danbooru 词条库（英文 - 中文）
 BUILTIN_TAGS = [
@@ -184,6 +188,7 @@ def init_db():
             english TEXT NOT NULL UNIQUE,
             chinese TEXT NOT NULL,
             category TEXT DEFAULT 'builtin',
+            usage_count INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -225,7 +230,18 @@ def match_tags():
     conn = get_db()
     cursor = conn.cursor()
     
-    # 1. 查找用户投稿
+    # 1. 智能关键词拆解（优先！）
+    parsed_keywords, remaining = parse_input(chinese_input)
+    
+    if parsed_keywords:
+        results = [
+            {'english': kw['english'], 'chinese': kw['keyword'], 'votes': 0, 'source': '关键词匹配'}
+            for kw in parsed_keywords
+        ]
+        conn.close()
+        return jsonify({'results': results[:5], 'source': '关键词匹配'})
+    
+    # 2. 查找用户投稿
     cursor.execute('''
         SELECT english_tag, chinese_translation, votes
         FROM submissions
@@ -243,7 +259,7 @@ def match_tags():
         conn.close()
         return jsonify({'results': results, 'source': 'database'})
     
-    # 2. 从 Danbooru 词库模糊匹配
+    # 3. 从 Danbooru 词库模糊匹配
     cursor.execute('''
         SELECT english, chinese, usage_count
         FROM tags
@@ -263,9 +279,9 @@ def match_tags():
     
     conn.close()
     
-    # 3. AI 匹配（词库没有时）
-    if not DEEPSEEK_API_KEY:
-        return jsonify({'error': '未配置 DeepSeek API Key', 'demo_mode': True, 'results': []}), 500
+    # 4. AI 匹配（实在找不到时）
+    if not AI_API_KEY:
+        return jsonify({'error': '未配置 AI API Key（请在 HF Space 设置中添加 QWEN_API_KEY 或 DEEPSEEK_API_KEY）', 'demo_mode': True, 'results': []}), 500
     
     prompt = f"""Danbooru 词条匹配助手。
 
@@ -278,16 +294,20 @@ def match_tags():
 
     try:
         req_data = json.dumps({
-            'model': DEEPSEEK_MODEL,
+            'model': AI_MODEL,
             'messages': [{'role': 'user', 'content': prompt}],
             'temperature': 0.3,
             'max_tokens': 500
         }).encode('utf-8')
         
         req = urllib.request.Request(
-            DEEPSEEK_API_URL,
+            AI_API_URL,
             data=req_data,
-            headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {DEEPSEEK_API_KEY}'},
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {AI_API_KEY}',
+                'User-Agent': 'Mozilla/5.0 (compatible; DanbooruMatcher/1.0)'
+            },
             method='POST'
         )
         
@@ -365,6 +385,8 @@ def get_submissions():
 os.makedirs('templates', exist_ok=True)
 init_db()
 
+# Vercel 部署：导出 app 对象即可
+# 本地运行
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
@@ -372,6 +394,16 @@ if __name__ == '__main__':
     parser.add_argument('--host', type=str, default='0.0.0.0')
     args = parser.parse_args()
     
-    port = 7860 if os.environ.get('HF_SPACE_ID') else args.port
-    print(f"\n🎨 Danbooru 词条匹配器启动中... http://{args.host}:{port}")
+    # 自动检测运行环境
+    if os.environ.get('HF_SPACE_ID'):
+        port = 7860
+        env_name = "HF Space"
+    elif os.environ.get('VERCEL'):
+        port = 8080
+        env_name = "Vercel"
+    else:
+        port = args.port
+        env_name = "本地"
+    
+    print(f"\n🎨 Danbooru 词条匹配器启动中... [{env_name}] http://{args.host}:{port}")
     app.run(host=args.host, port=port, debug=False)

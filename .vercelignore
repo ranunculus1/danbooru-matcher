@@ -1,0 +1,8 @@
+# Vercel Git 忽略文件
+.vercel
+__pycache__
+*.pyc
+*.db
+.env
+venv/
+node_modules/
