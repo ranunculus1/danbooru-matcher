@@ -1,0 +1,5 @@
+-e *.db
+*.csv
+__pycache__/
+*.log
+.env

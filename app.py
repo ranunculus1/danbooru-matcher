@@ -224,6 +224,7 @@ def match_tags():
     conn = get_db()
     cursor = conn.cursor()
     
+    # 1. 查找用户投稿
     cursor.execute('''
         SELECT english_tag, chinese_translation, votes
         FROM submissions
@@ -241,19 +242,33 @@ def match_tags():
         conn.close()
         return jsonify({'results': results, 'source': 'database'})
     
+    # 2. 从 Danbooru 词库模糊匹配
+    cursor.execute('''
+        SELECT english, chinese, usage_count
+        FROM tags
+        WHERE chinese LIKE ? OR english LIKE ?
+        ORDER BY usage_count DESC
+        LIMIT 10
+    ''', (f'%{chinese_input}%', f'%{chinese_input}%'))
+    db_matches = cursor.fetchall()
+    
+    if db_matches:
+        results = [
+            {'english': row['english'], 'chinese': row['chinese'], 'votes': row['usage_count'], 'source': 'Danbooru 词库'}
+            for row in db_matches[:5]
+        ]
+        conn.close()
+        return jsonify({'results': results, 'source': 'database'})
+    
     conn.close()
     
+    # 3. AI 匹配（词库没有时）
     if not DEEPSEEK_API_KEY:
         return jsonify({'error': '未配置 DeepSeek API Key', 'demo_mode': True, 'results': []}), 500
     
-    builtin_sample = '\n'.join([f"- {en}: {zh}" for en, zh in BUILTIN_TAGS[:80]])
-    
     prompt = f"""Danbooru 词条匹配助手。
 
-词条库：
-{builtin_sample}
-
-任务：根据中文描述匹配最相关的英文词条，返回最多 5 个。
+任务：根据中文描述匹配最相关的 Danbooru 英文词条，返回最多 5 个。
 格式：JSON 数组，每个元素包含 english 和 chinese 字段。
 
 输入：{chinese_input}
