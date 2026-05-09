@@ -11,10 +11,5 @@
       "src": "/(.*)",
       "dest": "app.py"
     }
-  ],
-  "env": {
-    "QWEN_API_KEY": "@qwen-api-key",
-    "QWEN_API_URL": "@qwen-api-url",
-    "QWEN_MODEL": "@qwen-model"
-  }
+  ]
 }
