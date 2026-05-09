@@ -382,6 +382,21 @@ def get_submissions():
     return jsonify(submissions)
 
 # 启动时初始化数据库
+# Vercel 使用 /tmp 目录
+if os.environ.get('VERCEL'):
+    DB_PATH = '/tmp/danbooru_tags.db'
+    os.makedirs('/tmp/templates', exist_ok=True)
+    # 复制模板到临时目录
+    import shutil
+    templates_dir = os.path.join(os.path.dirname(__file__), 'templates')
+    if os.path.exists(templates_dir):
+        for f in os.listdir(templates_dir):
+            src = os.path.join(templates_dir, f)
+            dst = os.path.join('/tmp/templates', f)
+            if os.path.isfile(src):
+                shutil.copy2(src, dst)
+    app.template_folder = '/tmp/templates'
+
 os.makedirs('templates', exist_ok=True)
 init_db()
 
