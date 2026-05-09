@@ -1,5 +1,17 @@
--e *.db
-*.csv
+# Python
 __pycache__/
+*.py[cod]
+*.so
+
+# 数据库
+*.db
+
+# CSV
+*.csv
+
+# 日志
 *.log
+
+# 环境
 .env
+.venv/
