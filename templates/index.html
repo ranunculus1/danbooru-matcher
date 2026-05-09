@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎨 Danbooru 词条匹配器</title>
+    <title>🎨 Danbooru 词条匹配器 - 慕夏风格</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Federo&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
     <style>
+        /* --- 慕夏风格核心 CSS --- */
         * {
             margin: 0;
             padding: 0;
@@ -12,142 +14,108 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5b5 100%);
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif !important;
+            background-color: #FDF6E3 !important;
+            background-image: radial-gradient(#F4EBD0 2px, transparent 2px) !important;
+            background-size: 40px 40px !important;
             min-height: 100vh;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* 背景装饰 */
+        /* 装饰性花纹符号 */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 115, 85, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            content: "❦";
+            display: block;
+            text-align: center;
+            font-size: 40px;
+            color: #B8860B;
+            margin-bottom: 10px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
         }
 
-        /* 顶部装饰 */
-        .top-ornament {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding: 8px;
-            background: linear-gradient(180deg, #8b7355 0%, #6b5344 100%);
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
-        }
-
-        .top-ornament span {
-            font-size: 20px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* 标题框 */
-        .title-frame {
-            background: linear-gradient(180deg, #a08060 0%, #8b7355 100%);
-            border-radius: 15px 15px 0 0;
-            padding: 20px;
+        /* 标题样式：慕夏海报字体感 */
+        .title-section {
             text-align: center;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(139, 115, 85, 0.4);
-            border: 3px solid #d4c4a8;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #B8860B;
         }
 
-        .title-frame h1 {
-            color: #f5e6d3;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            font-family: 'Brush Script MT', cursive;
-            letter-spacing: 2px;
+        .title-section h1 {
+            color: #8B4513 !important;
+            font-family: 'Federo', sans-serif !important;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        .title-frame p {
-            color: #e8d5b5;
-            margin-top: 8px;
+        .title-section p {
+            color: #A0522D;
             font-style: italic;
-            font-size: 0.9em;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        /* 容器美化：添加古典边框 */
+        .main-card {
+            border: 3px double #B8860B !important;
+            border-radius: 15px !important;
+            padding: 30px !important;
+            background: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 20px rgba(184, 134, 11, 0.2);
+            margin-bottom: 20px;
         }
 
         /* 标签页导航 */
         .tabs {
             display: flex;
-            gap: 0;
-            background: linear-gradient(180deg, #8b7355 0%, #6b5344 100%);
-            border-radius: 10px 10px 0 0;
-            padding: 5px 5px 0 5px;
-            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
-            flex: 1;
-            padding: 12px 20px;
-            background: transparent;
-            border: 2px solid transparent;
-            border-bottom: none;
-            color: #d4c4a8;
-            font-family: 'Georgia', serif;
+            background: linear-gradient(145deg, #D4AF37, #B8860B) !important;
+            color: white !important;
+            border: 1px solid #3E2723 !important;
+            border-radius: 50px !important;
+            padding: 12px 30px !important;
+            font-family: 'Federo', sans-serif !important;
             font-size: 1em;
-            font-weight: bold;
             cursor: pointer;
-            border-radius: 10px 10px 0 0;
-            transition: all 0.3s;
-            position: relative;
-            top: 2px;
+            transition: all 0.3s ease !important;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .tab-btn:hover {
-            background: rgba(245, 230, 211, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0px 5px 15px rgba(184, 134, 11, 0.4) !important;
         }
 
         .tab-btn.active {
-            background: #f5e6d3;
-            color: #8b7355;
-            border-color: #d4c4a8;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 主内容框 */
-        .main-card {
-            background: linear-gradient(180deg, #f5e6d3 0%, #e8d5b5 100%);
-            border: 4px solid #8b7355;
-            border-top: none;
-            border-radius: 0 0 15px 15px;
-            padding: 25px;
-            box-shadow: 0 8px 30px rgba(139, 115, 85, 0.4);
-            position: relative;
-            min-height: 400px;
+            background: linear-gradient(145deg, #B8860B, #8B4513) !important;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
         }
 
         /* 面板 */
         .panel {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
 
         .panel.active {
             display: block;
+            animation: fadeIn 0.4s ease-in;
         }
 
         @keyframes fadeIn {
@@ -162,51 +130,53 @@
 
         .input-group {
             display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         input[type="text"] {
             flex: 1;
-            padding: 12px 18px;
-            font-size: 15px;
-            border: 2px solid #8b7355;
-            border-radius: 8px;
-            background: #fffef9;
-            font-family: 'Georgia', serif;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 250px;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid #839B7D !important;
+            border-radius: 8px !important;
+            padding: 12px 20px;
+            font-size: 1.05em;
+            color: #3E2723 !important;
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
             transition: all 0.3s;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #a08060;
-            box-shadow: 0 0 10px rgba(160, 128, 96, 0.3);
+            border-color: #B8860B !important;
+            box-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
         }
 
         input[type="text"]::placeholder {
-            color: #b0a090;
+            color: #8B7355;
             font-style: italic;
         }
 
+        /* 按钮样式 */
         button {
-            padding: 12px 25px;
-            font-size: 15px;
-            background: linear-gradient(180deg, #a08060 0%, #8b7355 100%);
-            color: #f5e6d3;
-            border: 2px solid #6b5344;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #D4AF37, #B8860B) !important;
+            color: white !important;
+            border: 1px solid #3E2723 !important;
+            border-radius: 50px !important;
+            padding: 12px 30px;
+            font-family: 'Federo', sans-serif !important;
+            font-size: 1em;
             cursor: pointer;
-            font-family: 'Georgia', serif;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(139, 115, 85, 0.3);
-            transition: all 0.3s;
-            white-space: nowrap;
+            transition: all 0.3s ease !important;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(139, 115, 85, 0.4);
+            box-shadow: 0px 5px 15px rgba(184, 134, 11, 0.4) !important;
         }
 
         button:active {
@@ -216,66 +186,52 @@
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none !important;
         }
 
         /* 结果显示 */
         .result-card {
-            background: linear-gradient(135deg, #fffef9 0%, #f5e6d3 100%);
-            border: 2px solid #8b7355;
+            background: linear-gradient(135deg, #fffef9 0%, #FDF6E3 100%);
+            border: 2px solid #B8860B;
             border-radius: 10px;
             padding: 18px;
             margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(139, 115, 85, 0.2);
+            box-shadow: 0 4px 10px rgba(184, 134, 11, 0.2);
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .result-card::before {
-            content: '';
+            content: '❧';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(180deg, #a08060, #8b7355);
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: #B8860B;
+            opacity: 0.5;
         }
 
         .result-card:hover {
             transform: translateX(5px);
-            box-shadow: 0 6px 15px rgba(139, 115, 85, 0.3);
-        }
-
-        .result-card.clickable {
-            cursor: pointer;
-        }
-
-        .result-card.clickable:active {
-            transform: translateX(5px) scale(0.98);
-        }
-
-        .result-card .copy-hint {
-            opacity: 0.6;
-            font-size: 0.8em;
-        }
-
-        .result-card:hover .copy-hint {
-            opacity: 1;
-            color: #6b5344;
+            box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+            border-color: #D4AF37;
         }
 
         .result-card h3 {
-            color: #8b7355;
-            font-size: 1.3em;
+            color: #8B4513;
+            font-size: 1.4em;
             margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            font-family: 'Federo', sans-serif;
         }
 
         .result-card .chinese {
-            color: #6b5344;
+            color: #A0522D;
             font-size: 1em;
             font-style: italic;
         }
@@ -284,27 +240,32 @@
             display: flex;
             gap: 12px;
             margin-top: 8px;
-            font-size: 0.85em;
-            color: #a08060;
+            font-size: 0.9em;
+            color: #8B7355;
             flex-wrap: wrap;
         }
 
-        .result-card .meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .result-card .copy-hint {
+            opacity: 0.6;
+            font-size: 0.8em;
+            margin-left: auto;
+        }
+
+        .result-card:hover .copy-hint {
+            opacity: 1;
+            color: #B8860B;
         }
 
         /* 加载动画 */
         .loading {
             text-align: center;
             padding: 40px;
-            color: #8b7355;
+            color: #8B4513;
             font-size: 1.1em;
         }
 
         .loading::before {
-            content: '🦋';
+            content: '❦';
             display: inline-block;
             animation: spin 2s linear infinite;
             margin-right: 10px;
@@ -315,116 +276,139 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 错误/成功提示 */
+        /* 错误提示框：柔和的暗红色 */
         .error {
-            background: linear-gradient(135deg, #ffe6e6 0%, #ffd3d3 100%);
-            border: 2px solid #c06060;
-            color: #c06060;
-            padding: 12px 18px;
-            border-radius: 8px;
-            margin-top: 12px;
-        }
-
-        .success {
-            background: linear-gradient(135deg, #e6ffe6 0%, #d3ffd3 100%);
-            border: 2px solid #60a060;
-            color: #60a060;
-            padding: 12px 18px;
-            border-radius: 8px;
-            margin-top: 12px;
-        }
-
-        /* 底部装饰 */
-        .bottom-ornament {
-            margin-top: 20px;
-            text-align: center;
+            border: 1px solid #B07C74 !important;
+            background-color: #FADBD8 !important;
+            color: #943126 !important;
             padding: 15px;
-            background: linear-gradient(180deg, #8b7355 0%, #6b5344 100%);
-            border-radius: 10px;
-            color: #f5e6d3;
-            font-style: italic;
-            font-size: 0.9em;
-            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+            border-radius: 8px;
+            text-align: center;
         }
 
-        /* 角装饰 */
-        .corner-ornament {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0.5;
-        }
-        .corner-ornament.top-left { top: 12px; left: 12px; }
-        .corner-ornament.top-right { top: 12px; right: 12px; }
-        .corner-ornament.bottom-left { bottom: 12px; left: 12px; }
-        .corner-ornament.bottom-right { bottom: 12px; right: 12px; }
-
-        /* 投稿表单 */
-        .submit-form .input-group {
-            flex-direction: column;
+        /* 成功提示 */
+        .success {
+            border: 1px solid #7D9B83 !important;
+            background-color: #D5F5E6 !important;
+            color: #2E7D32 !important;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
         }
 
         /* 空状态 */
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: #a08060;
-            font-style: italic;
+            padding: 50px 20px;
+            color: #8B7355;
         }
 
         .empty-state span {
-            font-size: 3em;
+            font-size: 60px;
             display: block;
             margin-bottom: 15px;
         }
 
+        .empty-state p {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        /* 底部装饰 */
+        .bottom-ornament {
+            text-align: center;
+            padding: 20px;
+            color: #B8860B;
+            font-style: italic;
+            border-top: 1px solid #D4AF37;
+            margin-top: 30px;
+        }
+
+        .bottom-ornament::before {
+            content: "❦ ";
+        }
+
+        .bottom-ornament::after {
+            content: " ❦";
+        }
+
         /* 响应式 */
         @media (max-width: 600px) {
+            .title-section h1 {
+                font-size: 1.6em;
+            }
+
             .input-group {
                 flex-direction: column;
             }
-            
-            .title-frame h1 {
-                font-size: 1.5em;
+
+            input[type="text"] {
+                min-width: 100%;
+            }
+
+            button {
+                width: 100%;
             }
 
             .tabs {
                 flex-direction: column;
-                border-radius: 10px;
-                padding: 5px;
             }
 
             .tab-btn {
-                border-radius: 8px;
-                border: 2px solid transparent;
+                width: 100%;
             }
+        }
 
-            .tab-btn.active {
-                border-color: #d4c4a8;
-            }
+        /* 装饰性角花 */
+        .corner-ornament {
+            position: absolute;
+            font-size: 30px;
+            color: #B8860B;
+            opacity: 0.6;
+        }
+
+        .corner-ornament.top-left {
+            top: 10px;
+            left: 10px;
+        }
+
+        .corner-ornament.top-right {
+            top: 10px;
+            right: 10px;
+        }
+
+        .corner-ornament.bottom-left {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .corner-ornament.bottom-right {
+            bottom: 10px;
+            right: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 标题框 -->
-        <div class="title-frame">
-            <h1>Danbooru Matcher</h1>
-            <p>✨ 输入中文 · 匹配英文词条 ✨</p>
+        <!-- 标题区域 -->
+        <div class="title-section">
+            <h1>🎨 Danbooru 词条匹配器</h1>
+            <p>Art Nouveau Style · 慕夏艺术风格</p>
         </div>
 
         <!-- 标签页导航 -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('match')">🔍 词条匹配</button>
+            <button class="tab-btn active" onclick="switchTab('match')">✨ 词条匹配</button>
             <button class="tab-btn" onclick="switchTab('submit')">📝 投稿词条</button>
             <button class="tab-btn" onclick="switchTab('hot')">🔥 热门投稿</button>
         </div>
 
         <!-- 主内容框 -->
         <div class="main-card">
-            <span class="corner-ornament top-left">🌸</span>
-            <span class="corner-ornament top-right">🌸</span>
-            <span class="corner-ornament bottom-left">🌿</span>
-            <span class="corner-ornament bottom-right">🌿</span>
+            <span class="corner-ornament top-left">❧</span>
+            <span class="corner-ornament top-right">❧</span>
+            <span class="corner-ornament bottom-left">❦</span>
+            <span class="corner-ornament bottom-right">❦</span>
 
             <!-- 面板 1: 词条匹配 -->
             <div id="panel-match" class="panel active">
@@ -445,9 +429,9 @@
             <!-- 面板 2: 投稿词条 -->
             <div id="panel-submit" class="panel">
                 <div class="input-section submit-form">
-                    <div class="input-group">
+                    <div class="input-group" style="flex-direction: column;">
                         <input type="text" id="submitChineseInput" placeholder="📖 中文描述（例如：红色眼睛）">
-                        <input type="text" id="submitEnglishTag" placeholder="🔤 英文词条（例如：red eyes）">
+                        <input type="text" id="submitEnglishTag" placeholder="🔤 英文词条（例如：red_eyes）">
                         <input type="text" id="submitChineseTranslation" placeholder="📝 中文翻译（例如：红眼睛）">
                         <button onclick="submitTag()" id="submitBtn">📤 投稿</button>
                     </div>
@@ -470,24 +454,19 @@
 
         <!-- 底部装饰 -->
         <div class="bottom-ornament">
-            🦋 本魔女精心制作 · 饭团魔法师专属 🦋
+            本魔女精心制作 · 饭团魔法师专属
         </div>
     </div>
 
     <script>
         // 标签页切换
         function switchTab(tabName) {
-            // 隐藏所有面板
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
-            // 显示目标面板
             document.getElementById('panel-' + tabName).classList.add('active');
-            
-            // 激活对应按钮
             event.target.classList.add('active');
 
-            // 如果切换到热门投稿面板，重新加载
             if (tabName === 'hot') {
                 loadHotSubmissions();
             }
@@ -593,7 +572,6 @@
 
                 submitResult.innerHTML = '<div class="success">✅ 投稿成功！感谢您的贡献！🦋</div>';
                 
-                // 清空输入框
                 document.getElementById('submitChineseInput').value = '';
                 document.getElementById('submitEnglishTag').value = '';
                 document.getElementById('submitChineseTranslation').value = '';
@@ -622,15 +600,13 @@
                 let html = '';
                 submissions.slice(0, 20).forEach((sub, index) => {
                     html += `
-                        <div class="result-card" style="padding: 15px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                                <div style="flex: 1;">
-                                    <strong style="color: #8b7355; font-size: 1.2em;">${sub.english_tag}</strong>
-                                    <span style="color: #6b5344; margin-left: 10px; font-style: italic;">${sub.chinese_translation}</span>
-                                </div>
-                                <span style="color: #a08060; font-size: 0.9em; white-space: nowrap;">🔥 ${sub.votes} 票</span>
-                            </div>
-                            <div style="font-size: 0.85em; color: #b0a090; margin-top: 8px;">
+                        <div class="result-card" style="animation-delay: ${index * 0.05}s">
+                            <h3>
+                                <span>${sub.english_tag}</span>
+                                <span class="chinese">${sub.chinese_translation}</span>
+                            </h3>
+                            <div class="meta">
+                                <span>🔥 ${sub.votes} 票</span>
                                 <span style="font-style: italic;">"${sub.chinese_input}"</span>
                             </div>
                         </div>
@@ -644,15 +620,11 @@
             }
         }
 
-        // 页面加载时不自动加载，等用户切换标签
-
         // 复制词条到剪贴板
         function copyTag(tag) {
             navigator.clipboard.writeText(tag).then(() => {
-                // 显示成功提示
                 showToast(`✅ 已复制：${tag}`);
             }).catch(err => {
-                // 降级方案
                 const textArea = document.createElement('textarea');
                 textArea.value = tag;
                 textArea.style.position = 'fixed';
@@ -677,13 +649,14 @@
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%);
-                color: #f5e6d3;
+                background: linear-gradient(135deg, #B8860B, #8B4513);
+                color: #FDF6E3;
                 padding: 12px 24px;
                 border-radius: 25px;
-                box-shadow: 0 4px 15px rgba(139, 115, 85, 0.4);
+                box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
                 z-index: 9999;
                 font-size: 0.95em;
+                font-family: 'Federo', sans-serif;
                 animation: slideDown 0.3s ease-out;
             `;
             toast.textContent = message;
