@@ -16,7 +16,8 @@ import json
 import urllib.request
 
 app = Flask(__name__)
-DB_PATH = os.path.join(os.path.dirname(__file__), 'danbooru_tags.db')
+# HF Space 使用临时目录存储数据库（避免只读文件系统问题）
+DB_PATH = os.environ.get('DB_PATH', os.path.join(os.path.dirname(__file__), 'danbooru_tags.db'))
 
 # DeepSeek API 配置
 DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')

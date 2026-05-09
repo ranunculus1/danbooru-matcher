@@ -9,5 +9,6 @@ COPY . .
 EXPOSE 7860
 
 ENV HF_SPACE_ID=true
+ENV DB_PATH=/tmp/danbooru_tags.db
 
 CMD ["python3", "app.py", "--port", "7860", "--host", "0.0.0.0"]
