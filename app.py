@@ -360,15 +360,16 @@ def get_submissions():
     conn.close()
     return jsonify(submissions)
 
+# 启动时初始化数据库
+os.makedirs('templates', exist_ok=True)
+init_db()
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, default=5000)
     parser.add_argument('--host', type=str, default='0.0.0.0')
     args = parser.parse_args()
-    
-    os.makedirs('templates', exist_ok=True)
-    init_db()
     
     port = 7860 if os.environ.get('HF_SPACE_ID') else args.port
     print(f"\n🎨 Danbooru 词条匹配器启动中... http://{args.host}:{port}")
